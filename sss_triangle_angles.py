@@ -2,6 +2,7 @@ import math
 import statistics
 import pos_data
 R = 6371000 #radius of the earth
+motor_steps = 200 # steps per rotation
 
 
 def angle_calc(rtk, base_deca_tag, rover_deca_tag):
@@ -50,6 +51,9 @@ def trilateration(rtk, rad1, rad2):
     y_plus = math.sqrt(math.pow(rad1,2) - math.pow(x,2))
     y_minus = -math.sqrt(math.pow(rad1,2) - math.pow(x,2))
     return x, y_plus, y_minus
+
+def angle_to_steps(angle_deg):
+    return angle_deg*(motor_steps/360)
     
 
 if __name__ == '__main__':

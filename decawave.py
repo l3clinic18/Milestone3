@@ -10,10 +10,11 @@ ser.write(b'lec\r')
 time.sleep(2)
 print(ser.isOpen)
 start = time.time()
-running_ave = 0.0;
+running_ave = 0.0
 
 def get_runavg():
 	return running_ave
+	
 
 while(ser.is_open):
 

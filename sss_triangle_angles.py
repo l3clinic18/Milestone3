@@ -1,6 +1,7 @@
 import math
 import statistics
 import pos_data
+import decawave
 R = 6371000 #radius of the earth
 motor_steps = 200 # steps per rotation
 
@@ -58,31 +59,23 @@ def angle_to_steps(angle_deg):
 
 if __name__ == '__main__':
 
-    base_laser = 3.607
-    rover_laser = 4.452
-    rtk = 1.852
-    #a = [1,2 ,3 ,4,5,6,7,8,9]
-    #print(str(a[-3:]))
+    base_laser = 2.388
+    rover_laser = 2.626
+    rtk = 1.858
 
-    base_dist_file = "/home/andrew/minicom_base.csv"
-    rover_dist_file = "/home/andrew/minicom_rover.csv"
+    
+    base_dist = decawave.get_runavg()
+    
 
-    base_dist_measure = pos_data.UWB_pos_data(base_dist_file)
-    rover_dist_measure = pos_data.UWB_pos_data(rover_dist_file)
 
-    base_dist_mean = stats(base_dist_measure)
-    rover_dist_mean = stats(rover_dist_measure)
-    print(base_dist_mean)
-    print(rover_dist_mean)
-
-    angles_from_deca = angle_calc(rtk, base_dist_mean, rover_dist_mean)
+    angles_from_deca = angle_calc(rtk, base_dist, rover_laser)
     angles_from_laser = angle_calc(rtk, base_laser, rover_laser)
 
-    print("base distance error: " + str(base_dist_mean - base_laser))
-    print("rover distance error: " + str(rover_dist_mean - rover_laser))
+    steps_for_motor = angle_to_steps(angles_from_deca[0])
 
     print("angles from deca: " + str(angles_from_deca))
     print("angles from laser: " + str(angles_from_laser))
+    print("Motor steps: " + str(steps_for_motor))
 
     #while True:
        # try:

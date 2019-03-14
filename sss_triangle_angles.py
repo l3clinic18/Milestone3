@@ -56,6 +56,8 @@ def trilateration(rtk, rad1, rad2):
 def angle_to_steps(angle_deg):
     return angle_deg*(motor_steps/360)
     
+def rtk_calc(north, east):
+    return math.sqrt(math.pow(north,2) + math.pow(east,2))
 
 if __name__ == '__main__':
 

@@ -24,6 +24,7 @@ def main():
         with connectionSocket:
             while True:
                 print("Accepted connection from: " + str(connectionSocket.getpeername()))
+                data = connectionSocket.recv(1024)
                 if not data: break
                 print("data: ", repr(data))
 

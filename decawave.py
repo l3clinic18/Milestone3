@@ -37,7 +37,4 @@ def start_decawave():
 			ser.write(b'quit\r')
 			time.sleep(1)		
 			ser.close()
-
-
-	print('end of session')	
-	
+	print('end of session')

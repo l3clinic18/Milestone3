@@ -2,6 +2,7 @@ import math
 import statistics
 import pos_data
 import decawave
+import roboComB
 R = 6371000 #radius of the earth
 motor_steps = 200 # steps per rotation
 
@@ -61,18 +62,18 @@ def rtk_calc(north, east):
     
 def is_triangle(a, b, c):
     if (a > b + c) or (b > a + c) or (c > a + b):
-        print "No"
+        print ("No")
     else:
-        print "Yes"
+        print ("Yes")
 
 if __name__ == '__main__':
 
     base_laser = 2.388
     rover_laser = 2.626
     rtk = 1.858
-
-    
-    base_dist = decawave.get_runavg()
+    decawave.start_decawave()
+    base_dist = decawave.get_runavg() #robot_A
+    roboComB.main(12333, 192.168.1.10, base_dist)
     
 
 

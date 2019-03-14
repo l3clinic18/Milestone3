@@ -6,23 +6,18 @@ import hashlib
 import requests
 import sys
 import _thread
+import decawave
 
 recieve_data = []
 send_data = []
 
 #Configure recieve socket and thread.
-def main(port, ipv4_address):
+def send_(port, ipv4_address, deca_data):
     try:
         robo_socket = socket(AF_INET, SOCK_STREAM)
         robo_socket.connect((ipv4_address, int(port)))
     except:
         print("could not connect to host. Exiting.")
         sys.exit(1)
-    robo_socket.sendall("le'derp".encode())
+    robo_socket.sendall(deca_data)
     #robo_socket.sendall("end".encode())
-    
-
-if __name__ == "__main__":
-    robot_a_IP = 'localhost'
-    robot_a_port = 12333
-    main(robot_a_port, robot_a_IP) #robot_B

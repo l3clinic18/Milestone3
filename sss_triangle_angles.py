@@ -58,6 +58,12 @@ def angle_to_steps(angle_deg):
     
 def rtk_calc(north, east):
     return math.sqrt(math.pow(north,2) + math.pow(east,2))
+    
+def is_triangle(a, b, c):
+    if (a > b + c) or (b > a + c) or (c > a + b):
+        print "No"
+    else:
+        print "Yes"
 
 if __name__ == '__main__':
 

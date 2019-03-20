@@ -71,12 +71,7 @@ if __name__ == '__main__':
 
     base_laser = 2.388
     rover_laser = 2.626
-<<<<<<< HEAD
     rtk = 1.886
-=======
-    rtk = 1.799
->>>>>>> bdf4ebe3fa1226c4949ff58ea83d74ac363ec11c
-    #decawave.start_decawave()
     base_dist = decawave.start_decawave() #robot_A
     print("base_dist: " + str(base_dist))
     #roboComB.main(12333, 192.168.1.10, base_dist)

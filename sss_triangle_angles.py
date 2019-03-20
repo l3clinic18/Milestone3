@@ -2,7 +2,7 @@ import math
 import statistics
 import pos_data
 import decawave
-import roboComB
+import RoboComB
 R = 6371000 #radius of the earth
 motor_steps = 200 # steps per rotation
 
@@ -71,9 +71,9 @@ if __name__ == '__main__':
     base_laser = 2.388
     rover_laser = 2.626
     rtk = 1.858
-    decawave.start_decawave()
-    base_dist = decawave.get_runavg() #robot_A
-    roboComB.main(12333, 192.168.1.10, base_dist)
+    base_dist = decawave.start_decawave() #robot_A
+    print("base distance" + str(base_dist))
+    roboComB.send_(12333, '192.168.1.10', base_dist)
     
 
 

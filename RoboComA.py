@@ -14,7 +14,7 @@ send_data = []
 def main():
     host = ''
     port = 12333
-    
+    dist_data = 0.0
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as r_socket:
         r_socket.bind((host, port))
         r_socket.listen(2)
@@ -26,7 +26,9 @@ def main():
                 print("Accepted connection from: " + str(connectionSocket.getpeername()))
                 data = connectionSocket.recv(1024)
                 if not data: break
-                print("data: ", repr(data))
+                print("data: ", repr(data.decode()))
+                dist_data = float(data.decode())
+    return dist_data
 
 if __name__ == "__main__":
     main() 

@@ -2,7 +2,8 @@ import math
 import statistics
 import pos_data
 import decawave
-import roboComB
+import RoboComA
+import motorControl
 R = 6371000 #radius of the earth
 motor_steps = 200 # steps per rotation
 
@@ -70,21 +71,24 @@ if __name__ == '__main__':
 
     base_laser = 2.388
     rover_laser = 2.626
-    rtk = 1.858
-    decawave.start_decawave()
-    base_dist = decawave.get_runavg() #robot_A
-    roboComB.main(12333, 192.168.1.10, base_dist)
-    
+    rtk = 1.886
+    #decawave.start_decawave()
+    base_dist = decawave.start_decawave() #robot_A
+    print("base_dist: " + str(base_dist))
+    #roboComB.main(12333, 192.168.1.10, base_dist)
+    rover_dist = float(RoboComA.main())
+    print(str(rover_dist))
 
 
-    angles_from_deca = angle_calc(rtk, base_dist, rover_laser)
+    angles_from_deca = angle_calc(rtk, base_dist, rover_dist)
     angles_from_laser = angle_calc(rtk, base_laser, rover_laser)
 
     steps_for_motor = angle_to_steps(angles_from_deca[0])
-
+    motorControl.start_motor(int(steps_for_motor))
     print("angles from deca: " + str(angles_from_deca))
     print("angles from laser: " + str(angles_from_laser))
     print("Motor steps: " + str(steps_for_motor))
+
 
     #while True:
        # try:

@@ -3,10 +3,10 @@
 import serial
 import serial.tools
 import re
-with serial.Serial('/dev/cu.usbmodem14101', 9600, timeout=None, xonxoff=True) as ser:
+with serial.Serial('/dev/ttyACM0', 9600, timeout=None, xonxoff=True) as ser:
     print(ser.isOpen)
     while(ser.isOpen):
-        foo = ser.read()
+        foo = ser.readline()
         print(foo) #testing
     ser.close()
        

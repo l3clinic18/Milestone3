@@ -43,7 +43,7 @@ def RTK_dist():
     ubx_data = _nav_data()
     if ubx_data:
         dist = math.sqrt(math.pow(ubx_data[0],2) + math.pow(ubx_data[1],2))
-        #return dist
+        return dist
     else:
         return None
 

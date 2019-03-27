@@ -38,15 +38,13 @@ def _nav_data():
     else:
         return (north_pos, east_pos)
        
-#def RTK_dist():
+def RTK_dist():
 #triangle math
-ubx_data = _nav_data()
-if ubx_data:
-    dist = math.sqrt(math.pow(ubx_data[0],2) + math.pow(ubx_data[1],2))
-    #return dist
-else:
-    foo=None
-    #return None
-print("derp")
+    ubx_data = _nav_data()
+    if ubx_data:
+        dist = math.sqrt(math.pow(ubx_data[0],2) + math.pow(ubx_data[1],2))
+        #return dist
+    else:
+        return None
 
 

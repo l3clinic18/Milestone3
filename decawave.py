@@ -11,7 +11,7 @@ def start_decawave():
     global measurement_duration # sample/(sample/second) = seconds: time of taken measurements
     running_ave = 0.0
 
-    ser = serial.Serial('/dev/serial/by-id/usb-SEGGER_J-Link_000760044549-if00', 115200, timeout=None, xonxoff=True)
+    ser = serial.Serial('/dev/serial/by-id/usb-SEGGER_J-Link_000760044473-if00', 115200, timeout=None, xonxoff=True)
     print(ser)
     print (ser.is_open)
     ser.write(b'\r\r')

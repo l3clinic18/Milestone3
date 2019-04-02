@@ -1,6 +1,7 @@
 import serial
 import time
 import re
+
 k = 2.0 # the number of samples in tau and diviser in the running average
 counter = 0 #
 measurement_duration = 10*k # sample/(sample/second) = seconds: time of taken measurements
@@ -11,7 +12,7 @@ def start_decawave():
     global measurement_duration # sample/(sample/second) = seconds: time of taken measurements
     running_ave = 0.0
 
-    ser = serial.Serial('/dev/serial/by-id/usb-SEGGER_J-Link_000760044473-if00', 115200, timeout=None, xonxoff=True)
+    ser = serial.Serial('/dev/serial/by-id/usb-SEGGER_J-Link_000760044549-if00', 115200, timeout=None, xonxoff=True)
     print(ser)
     print (ser.is_open)
     ser.write(b'\r\r')

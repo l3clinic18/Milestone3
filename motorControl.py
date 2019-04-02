@@ -7,7 +7,7 @@ degrees = 0.0
 step_degree = .9
 def start_motor(motor_steps, direction):
         try:
-                Motor1 = DRV8825(dir_pin=13, step_pin=19, enable_pin=12, mode_pins=(16, 17, 20))
+                Motor1 = DRV8825(dir_pin=24, step_pin=18, enable_pin=4, mode_pins=(21, 22, 27))
                 """
                 # .9 degree: nema17
                 # softward Control :
@@ -34,18 +34,19 @@ def start_motor(motor_steps, direction):
         except:
                 Motor1.Stop()
                 GPIO.cleanup()
-                print("\nMotor_Control Error")
+                print("\nMotor_Control Error1")
                 exit()
-def reset_motor(steps, _direction):
+def reset_motor(steps, direction):
         try:
-                Motor1 = DRV8825(dir_pin=13, step_pin=19, enable_pin=12, mode_pins=(16, 17, 20))
+                _direction = negate_direction(direction)
+                Motor1 = DRV8825(dir_pin=24, step_pin=18, enable_pin=4, mode_pins=(21, 22, 27))
                 Motor1.TurnStep(Dir=_direction, steps=steps, stepdelay = 0.005)
                 #time.sleep(20)
-                #Motor1.Stop
+                Motor1.Stop
         except:
                 Motor1.Stop()
                 GPIO.cleanup()
-                print("\nMotor_Control Error")
+                print("\nMotor_Control Error2")
                 exit()
 def negate_direction(direction):
         if direction == 'forward':

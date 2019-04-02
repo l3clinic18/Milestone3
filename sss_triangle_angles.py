@@ -83,7 +83,7 @@ if __name__ == '__main__':
     angles_from_laser = angle_calc(rtk, base_laser, rover_laser)
 
     steps_for_motor = angle_to_steps(angles_from_deca[0])
-    motorControl.start_motor(int(steps_for_motor))
+    motorControl.start_motor(int(steps_for_motor), direction='forward')
     print("angles from deca: " + str(angles_from_deca))
     print("angles from laser: " + str(angles_from_laser))
     print("Motor steps: " + str(steps_for_motor))

@@ -4,6 +4,7 @@ from pixy import *
 from ctypes import *
 import statistics
 import motorControl
+import math
 # Initialize Pixy Interpreter thread #
 pixy_init()
 class Blocks (Structure):
@@ -56,8 +57,12 @@ def get_pixy_x():
     var = statistics.variance(blocks_x_pos, m)
     if 130 < m < 160:
         return m
-    else:
-        #move motor
-        motorControl.start_motor(5)
-        #call sample blocks
+    elif m < 130:
+        #clockwise
+        motorControl.start_motor(5, direction='forward')
         sample_blocks(200)
+    else:
+        #counter-clockwise
+        motorControl.start_motor(5, direction='backward')
+        sample_blocks(200)
+

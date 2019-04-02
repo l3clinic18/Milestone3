@@ -1,12 +1,17 @@
-#pyUBX used to bootstrap UBX communication to the Pi
-#Messages will be recieved, parsed and sent to sss_triangle.
-#                                           UBX packet structure                                            #
-# SyncChar1 | SyncChar2 |  Class   |   ID     |   Length   |             Payload              |  CHK_SUM |  #
-#  1 Byte   |  1 Byte   |  1 Byte  |  1 Byte  |   2 Byte   |     Variable 4 Byte increment    |  2 Byte  |  #
+
+"""
+pyUBX used to bootstrap UBX communication to the Pi
+Messages will be recieved, parsed and sent to sss_triangle.
+                                           UBX packet structure                                            #
+ SyncChar1 | SyncChar2 |  Class   |   ID     |   Length   |             Payload              |  CHK_SUM |  #
+  1 Byte   |  1 Byte   |  1 Byte  |  1 Byte  |   2 Byte   |     Variable 4 Byte increment    |  2 Byte  |  #
+"""
 import serial
 import serial.tools
 import math
-
+"""
+_nav_data: checks ever packet coming over the USB interface. Once the NAV-UBX_RELPOSNED (Ublox_M8 protocol sheet. 13003221)
+"""
 def _nav_data():
     north_pos = 0.0
     east_pos = 0.0
@@ -18,9 +23,11 @@ def _nav_data():
             ubx_index = ublox_data.find('b562013c')
             if ubx_index > 0:
                 ubx_nav_data = ublox_data[ubx_index:ubx_index+48]
-                #Byte Offsets
-                #index + 8 = north position, index + 12 = east position, 
-                #index + 20 high presiscion north, index + 21 high presiscion east.
+                """
+                Byte Offsets
+                index + 8 = north position, index + 12 = east position, 
+                index + 20 high presiscion north, index + 21 high presiscion east.
+                """
                 ##TO-DO validate nav data
                 north_pos = (int.from_bytes(bytes.fromhex(ubx_nav_data[ubx_index+8:ubx_index+12]), byteorder= 'little', signed=False)
                  + int.from_bytes(bytes.fromhex(ubx_nav_data[ubx_index+20:ubx_index+21]), byteorder= 'little', signed=False) * .001)
@@ -37,7 +44,12 @@ def _nav_data():
         return None
     else:
         return (north_pos, east_pos)
-       
+"""
+RTK_dist()
+Uses _nav_data() to capture an RTK packet with reletive position data
+Returns:
+    float: Magnitude of the RTK North and South vectors.
+"""       
 def RTK_dist():
 #triangle math
     ubx_data = _nav_data()

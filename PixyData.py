@@ -16,6 +16,7 @@ class Blocks (Structure):
                ("height", c_uint),
                ("angle", c_uint) ]
 blocks_x_pos = []
+x_center = 160
 #TO-DO: 
 #Get sample information.
 #Is it in the center of the field of view: Yes, No? 150 +- 20
@@ -46,23 +47,27 @@ def sample_blocks(sample_size):
                 if(len(blocks_x_pos) < 200):
                     blocks_x_pos.append(blocks[index].x)
                 else:
+                    #calculate average m and other usefull things.
                     get_pixy_x()
         
         
 #find the mean, variance and std deviation of the sample
 def get_pixy_x():
     global blocks_x_pos
-    m = statistics.mean(blocks_x_pos)
+    global x_center
+    mean = statistics.mean(blocks_x_pos)
     stdev = statistics.stdev(blocks_x_pos)
     var = statistics.variance(blocks_x_pos, m)
-    if 130 < m < 160:
-        return m
-    elif m < 130:
+    if mean > 175:
+        #counter-clockwise
+        block_offset = mean-x_center
+        motorControl.start_motor(block_offset, direction='backward')
+        sample_blocks(200)
+    elif mean < 145:
         #clockwise
-        motorControl.start_motor(5, direction='forward')
+        block_offset = x_center-mean
+        motorControl.start_motor(block_offset, direction='forward')
         sample_blocks(200)
     else:
-        #counter-clockwise
-        motorControl.start_motor(5, direction='backward')
-        sample_blocks(200)
+        return mean
 

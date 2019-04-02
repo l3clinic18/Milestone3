@@ -22,8 +22,7 @@ def start_decawave():
     print(ser.isOpen)
     start = time.time()
     while(ser.is_open):
-
-        
+    
         result = ser.readline().split(b',')
         if result[0] == b'DIST':
             raw_data = (result[7].decode('utf-8'))

@@ -1,5 +1,7 @@
 #Pixy (x,y) Data
 #Author Trevor Overby, CMUlabs @John Leimon
+import sys
+sys.path.insert(0, './pixy/build/libpixyusb_swig')
 from pixy import *
 from ctypes import *
 import statistics
@@ -61,13 +63,13 @@ def get_pixy_x():
     if mean > 175:
         #counter-clockwise
         block_offset = mean-x_center
-        motorControl.start_motor(block_offset, direction='backward')
-        sample_blocks(200)
+        motorControl.start_motor(int(block_offset), direction='backward')
+        sample_blocks(100)
     elif mean < 145:
         #clockwise
         block_offset = x_center-mean
-        motorControl.start_motor(block_offset, direction='forward')
-        sample_blocks(200)
+        motorControl.start_motor(int(block_offset), direction='forward')
+        sample_blocks(100)
     else:
         return mean
 

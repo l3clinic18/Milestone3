@@ -1,3 +1,3 @@
 import motorControl
 print("wat")
-motorControl.start_motor(100, direction='forward')
+motorControl.start_motor(300, direction='forward')

@@ -4,6 +4,7 @@ import pos_data
 import decawave
 import RoboComA
 import motorControl
+import PixyData
 R = 6371000 #radius of the earth
 motor_steps = 200 # steps per rotation
 
@@ -78,7 +79,10 @@ if __name__ == '__main__':
     rover_dist = float(RoboComA.main())
     print(str(rover_dist))
 
-
+    #Zeroing Camera
+    pixy_x = PixyData.get_pixy_x()
+    print(pixy_x)
+    
     angles_from_deca = angle_calc(rtk, base_dist, rover_dist)
     angles_from_laser = angle_calc(rtk, base_laser, rover_laser)
 
@@ -87,6 +91,7 @@ if __name__ == '__main__':
     print("angles from deca: " + str(angles_from_deca))
     print("angles from laser: " + str(angles_from_laser))
     print("Motor steps: " + str(steps_for_motor))
+    motorControl.stop_motor()
 
 
     #while True:

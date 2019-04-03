@@ -1,9 +1,8 @@
+#!/usr/bin/env python
 import RPi.GPIO as GPIO
 import time
 from DRV8825 import DRV8825
 
-degrees = 0.0
-step_degree = .9
 def start_motor(motor_steps, direction):
         try:
                 Motor1 = DRV8825(dir_pin=24, step_pin=18, enable_pin=4, mode_pins=(21, 22, 27))
@@ -17,19 +16,20 @@ def start_motor(motor_steps, direction):
                 # '1/16step': A cycle = 400 * 16 steps
                 # '1/32step': A cycle = 400 * 32 steps
                 """
-                global step_degree
-                degrees = motor_steps * step_degree
-
-                Motor1.SetMicroStep('hardward','fullstep')
-                Motor1.TurnStep(Dir=direction, steps=motor_steps, stepdelay = 0.005)
-                time.sleep(5)
+                
                 #rotate counterclockwise
-                if degrees >= 200:
+                if motor_steps >= 220:
                         _direction = negate_direction(direction)
-                        new_steps = int((360-degrees)/step_degree)
+                        new_steps = (400-motor_steps)
                         start_motor(new_steps, _direction)
                         return
-                reset_motor(motor_steps, direction)                
+                else:
+                    Motor1.SetMicroStep('hardward','fullstep')
+                    Motor1.TurnStep(Dir=direction, steps=motor_steps, stepdelay = 0.005)
+                    time.sleep(5)
+                
+                reset_motor(motor_steps, direction)
+                
         except:
                 Motor1.Stop()
                 GPIO.cleanup()
@@ -40,8 +40,6 @@ def reset_motor(steps, direction):
                 _direction = negate_direction(direction)
                 Motor1 = DRV8825(dir_pin=24, step_pin=18, enable_pin=4, mode_pins=(21, 22, 27))
                 Motor1.TurnStep(Dir=_direction, steps=steps, stepdelay = 0.005)
-                #time.sleep(20)
-                #Motor1.Stop
         except:
                 Motor1.Stop()
                 GPIO.cleanup()
@@ -53,3 +51,13 @@ def negate_direction(direction):
         else:
                 _direction = 'forward'
         return _direction
+def stop_motor():
+    try:
+        Motor1 = DRV8825(dir_pin=24, step_pin=18, enable_pin=4, mode_pins=(21, 22, 27))
+        Motor1.Stop()
+        GPIO.cleanup()
+    except:
+        Motor1.Stop()
+        GPIO.cleanup()
+        print("\nMotor_Control Error: stop_motor")
+        exit()

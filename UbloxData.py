@@ -10,7 +10,8 @@ import serial
 import serial.tools
 import math
 """
-_nav_data: checks ever packet coming over the USB interface. Once the NAV-UBX_RELPOSNED (Ublox_M8 protocol sheet. 13003221)
+_nav_data: checks ever packet coming over the USB interface. Once the NAV-UBX_RELPOSNED 
+(Ublox_M8 protocol sheet. 13003221) grab reletive position north and east.
 """
 def _nav_data():
     north_pos = 0.0
@@ -19,21 +20,25 @@ def _nav_data():
     #with serial.Serial("/dev/cu.usbmodem14101", 9600, timeout=None, xonxoff=True) as ser: #macOS enviroment.
         print(ser.isOpen)
         while(ser.isOpen):
-            ublox_data = str(ser.readline().hex())
+            ublox_data = ser.readline().hex()
             ubx_index = ublox_data.find('b562013c')
-            if ubx_index > 0:
-                ubx_nav_data = ublox_data[ubx_index:ubx_index+48]
+            print(ublox_data)
+            if ubx_index >= 0:
+                ubx_nav_data = ublox_data[ubx_index+12:ubx_index+92]
+                print(ubx_nav_data)
+                payload = bytearray.fromhex(ubx_nav_data)
+                print(len(payload))
                 """
                 Byte Offsets
                 index + 8 = north position, index + 12 = east position, 
                 index + 20 high presiscion north, index + 21 high presiscion east.
                 """
                 ##TO-DO validate nav data
-                north_pos = (int.from_bytes(bytes.fromhex(ubx_nav_data[ubx_index+8:ubx_index+12]), byteorder= 'little', signed=False)
-                 + int.from_bytes(bytes.fromhex(ubx_nav_data[ubx_index+20:ubx_index+21]), byteorder= 'little', signed=False) * .001)
+                north_pos = (int.from_bytes(payload[8:12], byteorder= 'little', signed=False)
+                 + int.from_bytes(payload[20:21], byteorder= 'little', signed=False) * .001)
                 
-                east_pos  = (int.from_bytes(bytes.fromhex(ubx_nav_data[ubx_index+12:ubx_index+16]), byteorder= 'little', signed= False)
-                 + int.from_bytes(bytes.fromhex(ubx_nav_data[ubx_index+21:ubx_index+22]), byteorder= 'little', signed= False) * .001)
+                east_pos  = (int.from_bytes(payload[12:16], byteorder= 'little', signed= False)
+                 + int.from_bytes(payload[21:22], byteorder= 'little', signed= False) * .001)
                 break
             #print(str(foo.hex()))
             #print(str(foo.hex()).find('b562013c'))
@@ -57,6 +62,6 @@ def RTK_dist():
         dist = math.sqrt(math.pow(ubx_data[0],2) + math.pow(ubx_data[1],2))
         return dist
     else:
-        return None
+        return 0.0
 
 

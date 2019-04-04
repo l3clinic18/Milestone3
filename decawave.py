@@ -40,4 +40,5 @@ def start_decawave():
             time.sleep(1)       
             ser.close()
     print('end of session')
-    return running_ave
+    return running_ave*0.9998 + 0.2419	#corrected running average 
+

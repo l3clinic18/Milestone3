@@ -5,8 +5,9 @@ import decawave
 import RoboComA
 import motorControl
 import PixyData
+import UbloxData
 R = 6371000 #radius of the earth
-motor_steps = 200 # steps per rotation
+motor_steps = 400 # steps per rotation
 
 
 def angle_calc(rtk, base_deca_tag, rover_deca_tag):
@@ -72,11 +73,12 @@ if __name__ == '__main__':
 
     base_laser = 2.388
     rover_laser = 2.626
-    rtk = 1.886
+    rtk_laser = 1.886
     base_dist = decawave.start_decawave() #robot_A
     print("base_dist: " + str(base_dist))
     #roboComB.main(12333, 192.168.1.10, base_dist)
     rover_dist = float(RoboComA.main())
+    rtk = UbloxData.RTK_dist()
     print(str(rover_dist))
 
     #Zeroing Camera
@@ -84,7 +86,7 @@ if __name__ == '__main__':
     print(pixy_x)
     
     angles_from_deca = angle_calc(rtk, base_dist, rover_dist)
-    angles_from_laser = angle_calc(rtk, base_laser, rover_laser)
+    angles_from_laser = angle_calc(rtk_laser, base_laser, rover_laser)
 
     steps_for_motor = angle_to_steps(angles_from_deca[0])
     motorControl.start_motor(int(steps_for_motor), direction='forward')

@@ -86,6 +86,5 @@ def get_pixy_x():
         sample_blocks(_sample_size)
         return None
     else:
-        motorControl.stop_motor()
         return mean
 

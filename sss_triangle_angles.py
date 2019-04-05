@@ -58,7 +58,7 @@ def trilateration(rtk, rad1, rad2):
     return x, y_plus, y_minus
 
 def angle_to_steps(angle_deg):
-    return angle_deg*(motor_steps/360)
+    return round(angle_deg*(motor_steps/360))
     
 def rtk_calc(north, east):
     return math.sqrt(math.pow(north,2) + math.pow(east,2))
@@ -70,30 +70,32 @@ def is_triangle(a, b, c):
         print ("Yes")
 
 if __name__ == '__main__':
-
-    base_laser = 2.388
-    rover_laser = 2.626
-    rtk_laser = 1.886
+    #Base has camera
+    base_laser = 18.253
+    rover_laser = 17.445
+    rtk_laser = 3.301
     base_dist = decawave.start_decawave() #robot_A
-    print("base_dist: " + str(base_dist))
-    #roboComB.main(12333, 192.168.1.10, base_dist)
     rover_dist = float(RoboComA.main())
+    #:rtk = rtk_laser
     rtk = UbloxData.RTK_dist()
-    print(str(rover_dist))
+    print("base_dist: " + str(base_dist))
+    print("rover_dist: " + str(rover_dist))
+    print("rtk_dist: " + str(rtk))
 
     #Zeroing Camera
-    pixy_x = PixyData.get_pixy_x()
+    pixy_x = PixyData.sample_blocks(20)
     print(pixy_x)
     
     angles_from_deca = angle_calc(rtk, base_dist, rover_dist)
     angles_from_laser = angle_calc(rtk_laser, base_laser, rover_laser)
 
     steps_for_motor = angle_to_steps(angles_from_deca[0])
-    motorControl.start_motor(int(steps_for_motor), direction='forward')
+    motorControl.start_motor(int(steps_for_motor), direction='backward')
     print("angles from deca: " + str(angles_from_deca))
     print("angles from laser: " + str(angles_from_laser))
     print("Motor steps: " + str(steps_for_motor))
-    motorControl.stop_motor()
+    pixy_x = PixyData.sample_blocks(20)
+    print(pixy_x)
 
 
     #while True:

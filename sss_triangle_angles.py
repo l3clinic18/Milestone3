@@ -78,7 +78,7 @@ def pixy_angle_correction(camera_to_target_dist,blocks_offset,steps_moved_by_mot
     #Actual distance from camera to target (meters).
     distance = camera_to_target_dist #need this distance from the Decawave
     #Calculation for actual distance from the direction the camera is pointing to the actual center of the target. 
-    realWidth = ((blocksFromCenter*blockWidth)/(focalLength))*distance;
+    realWidth = ((blocksFromCenter*blockWidth)/(focalLength))*distance
     #Arclength formula. 
     angle = steps_moved_by_motor*0.9 #Degrees. this number will come from
     r = distance; #Meters

@@ -68,6 +68,33 @@ def is_triangle(a, b, c):
         print ("No")
     else:
         print ("Yes")
+def pixy_angle_correction(camera_to_target_dist,blocks_offset,steps_moved_by_motor):
+    #Number of blocks from the center of the target to the center of the image.
+    blocksFromCenter = blocks_offset# need this values from the Camera after it has moved.
+    #width of a block.
+    blockWidth = 18.3727E-6
+    #Focal length of camera.
+    focalLength = 25E-3
+    #Actual distance from camera to target (meters).
+    distance = camera_to_target_dist #need this distance from the Decawave
+    #Calculation for actual distance from the direction the camera is pointing to the actual center of the target. 
+    realWidth = ((blocksFromCenter*blockWidth)/(focalLength))*distance;
+    #Arclength formula. 
+    angle = steps_moved_by_motor*0.9 #Degrees. this number will come from
+    r = distance; #Meters
+    arcLength = (r*2*math.pi)*(angle/360)
+
+
+
+    #Angle error correction.
+    correctedArcLength = arcLength + realWidth
+    correctedAngle = (correctedArcLength*360)/(2*math.pi*r)
+    print("real width is " + str(realWidth))
+    print("corrected angle is " + str(correctedAngle))
+    print("arc length is " + str(arcLength)
+    print("new arc length is " + correctedArcLength)
+    print("target is " + ((correctedArcLength-arcLength)* 10) + " centimeters from the direction of the camera")
+
 
 if __name__ == '__main__':
     #Base has camera
@@ -96,25 +123,3 @@ if __name__ == '__main__':
     print("Motor steps: " + str(steps_for_motor))
     pixy_x = PixyData.sample_blocks(20)
     print(pixy_x)
-
-
-    #while True:
-       # try:
-           # base_dist_measure = pos_data.UWB_pos_data(base_dist_file)
-           # rover_dist_measure = pos_data.UWB_pos_data(rover_dist_file)
-            #base_dist_mean = stats(base_dist_measure[-10:])
-            #rover_dist_mean = stats(rover_dist_measure[-10:])
-            #angles_from_deca = angle_calc(base_dist_mean, rover_dist_mean, rtk)
-            #angles_from_laser = angle_calc(base_laser, rover_laser, rtk)
-
-            #print("angles from deca: " + str(angles_from_deca))
-            #print("angles from laser: " + str(angles_from_laser))
-            
-            #print("in the loop")
-        #except KeyboardInterrupt:
-            #break
-
-  #  print("successful")
-   
-
-

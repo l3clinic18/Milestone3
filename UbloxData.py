@@ -16,24 +16,26 @@ _nav_data: checks ever packet coming over the USB interface. Once the NAV-UBX_RE
 def _nav_data():
     north_pos = 0.0
     east_pos = 0.0
-    with serial.Serial('/dev/ttyACM1', 9600, timeout=None, xonxoff=True) as ser: #Used for rPI
-    #with serial.Serial("/dev/cu.usbmodem14101", 9600, timeout=None, xonxoff=True) as ser: #macOS enviroment.
+    #with serial.Serial('/dev/ttyACM1', 9600, timeout=None, xonxoff=True) as ser: #Used for rPI
+    with serial.Serial("/dev/cu.usbmodem14101", 9600, timeout=None, xonxoff=True) as ser: #macOS enviroment.
         print(ser.isOpen)
         while(ser.isOpen):
-            ublox_data = ser.readline().hex()
+            ublox_data = ser.readline()
             print(ublox_data)
-            ubx_index = ublox_data.find('b562013c')
+            ubx_index = ublox_data.find(b'\xb5b\x01<')
             if ubx_index >= 0:
-                ubx_nav_data = ublox_data[ubx_index+12:ubx_index+92]
-                print(ubx_nav_data)
-                payload = bytearray.fromhex(ubx_nav_data)
+                payload = ublox_data[ubx_index+6:ubx_index+46]
+                print(payload.hex())
+                print(len(payload))
                 """
                 Byte Offsets
                 index + 8 = north position, index + 12 = east position, 
                 index + 20 high presiscion north, index + 21 high presiscion east.
                 """
+                #iTOW
+                print(int.from_bytes(payload[4:8], byteorder='little', signed=False))
                 ##TO-DO validate nav data
-                print("northData: " + str(payload[8:12].hex()))
+                print("northData: " + payload[8:12].hex())
                 north_pos = (int.from_bytes(payload[8:12], byteorder= 'little', signed=True)
                  + (int.from_bytes(payload[20:21], byteorder= 'little', signed=True) * .01))
                 print("eastData: "+ str(payload[12:16].hex()))

@@ -74,7 +74,7 @@ def pixy_angle_correction(camera_to_target_dist,blocks_offset,steps_moved_by_mot
     #width of a block.
     blockWidth = 18.3727E-6
     #Focal length of camera.
-    focalLength = 25E-3
+    focalLength = 90E-3
     #Actual distance from camera to target (meters).
     distance = camera_to_target_dist #need this distance from the Decawave
     #Calculation for actual distance from the direction the camera is pointing to the actual center of the target. 
@@ -91,9 +91,10 @@ def pixy_angle_correction(camera_to_target_dist,blocks_offset,steps_moved_by_mot
     correctedAngle = (correctedArcLength*360)/(2*math.pi*r)
     print("real width is " + str(realWidth))
     print("corrected angle is " + str(correctedAngle))
-    print("arc length is " + str(arcLength)
+    print("arc length is " + str(arcLength))
     print("new arc length is " + correctedArcLength)
     print("target is " + ((correctedArcLength-arcLength)* 10) + " centimeters from the direction of the camera")
+    return correctedArcLength
 
 
 if __name__ == '__main__':
@@ -110,7 +111,7 @@ if __name__ == '__main__':
     print("rtk_dist: " + str(rtk))
 
     #Zeroing Camera
-    pixy_x = PixyData.sample_blocks(20)
+    PixyData.center_camera()
     print(pixy_x)
     
     angles_from_deca = angle_calc(rtk, base_dist, rover_dist)
@@ -121,5 +122,5 @@ if __name__ == '__main__':
     print("angles from deca: " + str(angles_from_deca))
     print("angles from laser: " + str(angles_from_laser))
     print("Motor steps: " + str(steps_for_motor))
-    pixy_x = PixyData.sample_blocks(20)
+    pixy_x = PixyData.get_pixy_x()
     print(pixy_x)

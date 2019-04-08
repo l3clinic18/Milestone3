@@ -44,10 +44,6 @@ def _nav_data():
                 print("north: " + str(north_pos))
                 print("east: "+ str(east_pos))
                 break
-            #print(str(foo.hex()))
-            #print(str(foo.hex()).find('b562013c'))
-            #foo2 = str(foo.hex())[80:128]
-            #print("foo2: " + foo2)
         ser.close()
     if (north_pos + east_pos) == 0.0:
         return None

@@ -1,7 +1,7 @@
 import serial
 import time
 import re
-
+import math
 k = 2.0 # the number of samples in tau and diviser in the running average
 counter = 0 #
 measurement_duration = 10*k # sample/(sample/second) = seconds: time of taken measurements
@@ -41,4 +41,12 @@ def start_decawave():
             ser.close()
     print('end of session')
     return running_ave*0.9998 + 0.2419	#corrected running average 
+
+def regression_correction(data_to_correct):
+    data = data_to_correct
+    coef = [8.5705E-9,-2.0922E-6,2.1438E-4,0.9894,0.3877]
+    corrected_data = 0
+    for k  in range (len(coef)-1):
+        corrected_data = coef[k]*math.pow(data,(len(coef)-1)-k)
+    return corrected_data
 

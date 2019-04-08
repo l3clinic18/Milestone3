@@ -63,6 +63,7 @@ def get_pixy_x():
     global _sample_size
     if len(blocks_x_pos) < _sample_size:
         sample_blocks()
+        mean = statistics.mean(blocks_x_pos)
     else:
         mean = statistics.mean(blocks_x_pos)
     print("mean x_pos:" + str(mean))
@@ -86,3 +87,4 @@ def center_camera():
         motorControl.start_motor(1, direction='forward')
         time.sleep(2)
         sample_blocks()
+    return mean

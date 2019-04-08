@@ -111,8 +111,7 @@ if __name__ == '__main__':
     print("rtk_dist: " + str(rtk))
 
     #Zeroing Camera
-    PixyData.center_camera()
-    print(pixy_x)
+    camera_center = PixyData.center_camera()
     
     angles_from_deca = angle_calc(rtk, base_dist, rover_dist)
     angles_from_laser = angle_calc(rtk_laser, base_laser, rover_laser)
@@ -124,3 +123,5 @@ if __name__ == '__main__':
     print("Motor steps: " + str(steps_for_motor))
     pixy_x = PixyData.get_pixy_x()
     print(pixy_x)
+    corrected_angle = pixy_angle_correction(base_dist,camera_center,steps_for_motor)
+    print("corrected angle: " + str(corrected_angle))

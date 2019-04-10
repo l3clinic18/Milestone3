@@ -40,4 +40,14 @@ def start_decawave():
             time.sleep(1)       
             ser.close()
     print('end of session')
-    return running_ave*0.9998+0.2258
+    return running_ave*0.9998+0.2258 # running average correction using linear regression
+   # return regression_correction(running_ave) # running average correction using 4th order regression
+
+    def regression_correction(data_to_correct):
+    data = data_to_correct
+    coef = [8.5705E-9,-2.0922E-6,2.1438E-4,0.9894,0.3877]
+    N = len(coef)
+    corrected_data = 0
+    for k  in range (N):
+        corrected_data = corrected_data + coef[k]*math.pow(data,(N-1)-k)
+    return corrected_data

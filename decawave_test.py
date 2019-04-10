@@ -1,4 +1,9 @@
 import decawave
-distance = 102.119
+#import sss_triangle_angles
+distance = 59.294
 test = decawave.regression_correction(distance)
-print(str(test))
+print("final value = " + str(test))
+print("error = " + str(test - 59.546))
+
+#dist = sss_triangle_angles.decawave_offset_correction(90,5)
+#print(dist)

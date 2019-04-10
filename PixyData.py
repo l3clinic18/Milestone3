@@ -20,7 +20,7 @@ class Blocks (Structure):
                ("angle", c_uint) ]
 blocks_x_pos = []
 x_center = 160
-_sample_size = 20
+_sample_size = 1000
 #TO-DO: 
 #Get sample information.
 #Is it in the center of the field of view: Yes, No? 150 +- 20
@@ -36,7 +36,6 @@ _sample_size = 20
 def sample_blocks():
     global blocks_x_pos
     global _sample_size
-    global _sample_size
     blocks_x_pos = []
     blocks = BlockArray(100)
     frame  = 0
@@ -45,7 +44,7 @@ def sample_blocks():
         count = pixy_get_blocks(100, blocks)
         if count > 0:
             # Blocks found #
-            print('frame %3d:' % (frame))
+            #print('frame %3d:' % (frame))
             frame = frame + 1
             for index in range (0, count):
                 print('[BLOCK_TYPE=%d SIG=%d X=%3d Y=%3d WIDTH=%3d HEIGHT=%3d]' % 
@@ -54,19 +53,15 @@ def sample_blocks():
                 if(len(blocks_x_pos) < _sample_size):
                     blocks_x_pos.append(blocks[index].x)
                 else:
-                    break
+                    return
                     
         
 #find the mean, variance and std deviation of the sample
 def get_pixy_x():
     global blocks_x_pos
     global _sample_size
-    if len(blocks_x_pos) < _sample_size:
-        sample_blocks()
-        mean = statistics.mean(blocks_x_pos)
-    else:
-        mean = statistics.mean(blocks_x_pos)
-    print("mean x_pos:" + str(mean))
+    sample_blocks()
+    mean = statistics.mean(blocks_x_pos)
     return mean
 
 def center_camera():
@@ -74,17 +69,20 @@ def center_camera():
     global _sample_size
     if len(blocks_x_pos) < _sample_size:
         sample_blocks()
+        mean = statistics.mean(blocks_x_pos)
     else:
         mean = statistics.mean(blocks_x_pos)
     print("mean x_pos: " + str(mean))
-    if mean > 175:
-        #clockwise
-        motorControl.start_motor(1, direction='backward')
-        time.sleep(2)
-        sample_blocks()
-    elif mean < 145:
-        #counter-clockwise
-        motorControl.start_motor(1, direction='forward')
-        time.sleep(2)
-        sample_blocks()
+    while mean > 175 or mean < 145:
+        mean = statistics.mean(blocks_x_pos)
+        if mean > 175:
+            #clockwise
+            motorControl.start_motor(1, direction='backward')
+            time.sleep(2)
+            sample_blocks()
+        elif mean < 145:
+            #counter-clockwise
+            motorControl.start_motor(1, direction='forward')
+            time.sleep(2)
+            sample_blocks()
     return mean

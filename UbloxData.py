@@ -16,17 +16,19 @@ _nav_data: checks ever packet coming over the USB interface. Once the NAV-UBX_RE
 def _nav_data():
     north_pos = 0.0
     east_pos = 0.0
-    #with serial.Serial('/dev/ttyACM1', 9600, timeout=None, xonxoff=True) as ser: #Used for rPI
-    with serial.Serial("/dev/cu.usbmodem14101", 9600, timeout=None, xonxoff=True) as ser: #macOS enviroment.
+    with serial.Serial('/dev/ttyACM0', 9600, timeout=None, xonxoff=True) as ser: #Used for rPI
+    #with serial.Serial("/dev/cu.usbmodem14101", 9600, timeout=None, xonxoff=True) as ser: #macOS enviroment.
         print(ser.isOpen)
         while(ser.isOpen):
-            ublox_data = ser.readline()
+            ublox_data = ser.read(100)
             print(ublox_data)
             ubx_index = ublox_data.find(b'\xb5b\x01<')
             if ubx_index >= 0:
                 payload = ublox_data[ubx_index+6:ubx_index+46]
                 print(payload.hex())
                 print(len(payload))
+                if len(payload) != 40:
+                    continue
                 """
                 Byte Offsets
                 index + 8 = north position, index + 12 = east position, 

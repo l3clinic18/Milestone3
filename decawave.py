@@ -45,7 +45,7 @@ def start_decawave():
 
 def regression_correction(data_to_correct):
     data = data_to_correct
-    coef = [8.5705E-9,-2.0922E-6,2.1438E-4,0.9894,0.3877]
+    coef = [-2.0158E-9,-2.857E-7,9.4140E-5,0.9944,0.3114]
     N = len(coef)
     corrected_data = 0
     for k  in range (N):

@@ -73,7 +73,7 @@ if __name__ == '__main__':
     rtk = 1.858
     base_dist = decawave.start_decawave() #robot_A
     print("base distance" + str(base_dist))
-    roboComB.send_(12333, '192.168.1.10', base_dist)
+    RoboComB.send_(12333, '192.168.1.10', base_dist)
     
 
 

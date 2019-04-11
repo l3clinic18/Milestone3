@@ -40,8 +40,8 @@ def start_decawave():
             time.sleep(1)       
             ser.close()
     print('end of session')
-    return running_ave*0.9998 + 0.2419	#corrected running average using Linear Regression
-    #return regression_correction(running_ave) # corrected running average using a 4th order regression
+    #return running_ave*0.9998 + 0.2419	#corrected running average using Linear Regression
+    return regression_correction(running_ave) # corrected running average using a 4th order regression
 
 def regression_correction(data_to_correct):
     data = data_to_correct

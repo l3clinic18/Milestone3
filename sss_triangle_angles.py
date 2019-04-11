@@ -101,6 +101,25 @@ def pixy_angle_correction(camera_to_target_dist,blocks_offset,steps_moved_by_mot
     #print("target is " + str((correctedArcLength-arcLength)) + " centimeters from the direction of the camera")
     return correctedAngle
 
+# to calculate the true distance from the center of the base/rover
+# because the decawave is adhered to the side of the base/rover
+def decawave_offset_correction(angle_deg,dist_to_target):
+    offset = 42E-3 #the decawave is 42mm from the center of the base/rover module
+    rad = math.radians(angle_deg) + math.pi/2 # adding 90 degrees to the angle 
+    a_sqr = math.pow(dist_to_target,2)
+    b_sqr = math.pow(offset,2)
+    if rad > math.pi:
+        rad = rad - math.pi
+        corrected_dist = math.sqrt(a_sqr + b_sqr - 2*dist_to_target*offset*math.cos(rad)) 
+    elif rad < math.pi:
+        corrected_dist = math.sqrt(a_sqr + b_sqr - 2*dist_to_target*offset*math.cos(rad))
+    else:
+        corrected_dist = dist_to_target + offset
+    
+    return corrected_dist
+ 
+    
+    
 
 if __name__ == '__main__':
     #Base has camera

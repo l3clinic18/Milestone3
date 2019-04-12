@@ -33,15 +33,15 @@ def start_decawave():
                 running_ave = running_ave - (1.0/k)*(running_ave-raw_data)
             print("raw data : ",(raw_data))
             print("running average : ", running_ave)
-        if start + 40 < time.time(): #change to 400 samples
+        if start + 60 < time.time(): #change to 400 samples
             ser.write(b'lec\r')
             time.sleep(1)
             ser.write(b'quit\r')
             time.sleep(1)       
             ser.close()
     print('end of session')
-    #return running_ave*0.9998 + 0.2419	#corrected running average using Linear Regression
-    return regression_correction(running_ave) # corrected running average using a 4th order regression
+    return running_ave*0.9998 + 0.2419	#corrected running average using Linear Regression
+    #return regression_correction(running_ave) # corrected running average using a 4th order regression
 
 def regression_correction(data_to_correct):
     data = data_to_correct

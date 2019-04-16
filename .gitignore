@@ -7,3 +7,11 @@ __pycache__/pos_data.cpython-37.pyc
 UbloxData
 .vscode/.ropeproject/config.py
 __pycache__/UbloxData.cpython-37.pyc
+pos_data.h
+minicom.csv
+cam_results.txt
+azimuth_calc.cpp
+ubxTest1.log
+ubxTest2.log
+ubxTest3.log
+ubxTest3.log

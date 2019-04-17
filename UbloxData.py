@@ -34,7 +34,7 @@ def _nav_data():
                 index + 20 high presiscion north, index + 21 high presiscion east.
                 """
                 #iTOW
-                print(int.from_bytes(payload[4:8], byteorder='little', signed=False))
+                print("iTow: " + str(int.from_bytes(payload[4:8], byteorder='little', signed=False)))
                 ##TO-DO validate nav data
                 print("northData: " + payload[8:12].hex())
                 north_pos = (int.from_bytes(payload[8:12], byteorder= 'little', signed=True)

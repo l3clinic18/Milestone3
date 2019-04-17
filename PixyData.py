@@ -45,8 +45,8 @@ def sample_blocks():
             #print('frame %3d:' % (frame))
             frame = frame + 1
             for index in range (0, count):
-                print('[BLOCK_TYPE=%d SIG=%d X=%3d Y=%3d WIDTH=%3d HEIGHT=%3d]' % 
-                (blocks[index].type, blocks[index].signature, blocks[index].x, blocks[index].y, blocks[index].width, blocks[index].height))
+                #print('[BLOCK_TYPE=%d SIG=%d X=%3d Y=%3d WIDTH=%3d HEIGHT=%3d]' % 
+                #(blocks[index].type, blocks[index].signature, blocks[index].x, blocks[index].y, blocks[index].width, blocks[index].height))
                 #Add x values to a list SAMPLE_SIZE = 200
                 if len(blocks_x_pos) < _sample_size and blocks[index].signature == 1:
                     blocks_x_pos.append(blocks[index].x)
@@ -86,7 +86,7 @@ def center_camera():
         mean = statistics.mean(blocks_x_pos)
     print("mean x_pos: " + str(mean))
     while mean > 200 or mean < 25:
-        print("mean x_pos: " + str(mean))
+        print("Adjusted mean x_pos: " + str(mean))
         mean = statistics.mean(blocks_x_pos)
         if mean > 200:
             #clockwise

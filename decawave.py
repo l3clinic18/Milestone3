@@ -31,9 +31,9 @@ def start_decawave():
             else:
                 raw_data = float(raw_data)
                 running_ave = running_ave - (1.0/k)*(running_ave-raw_data)
-            print("raw data : ",(raw_data))
+            #print("raw data : ",(raw_data))
             print("running average : ", running_ave)
-        if start + 60 < time.time(): #change to 400 samples
+        if start + 60 < time.time():
             ser.write(b'lec\r')
             time.sleep(1)
             ser.write(b'quit\r')

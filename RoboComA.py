@@ -10,9 +10,6 @@ import requests
 import sys
 import _thread
 
-recieve_data = []
-send_data = []
-
 #Configure recieve socket and thread.
 def main():
     """

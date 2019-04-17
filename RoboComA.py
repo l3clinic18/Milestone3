@@ -1,3 +1,6 @@
+"""
+simple unthreaded socket communication dedicated to recieve data from another robot.
+"""
 import socket
 from urllib.parse import urlparse
 import urllib.request
@@ -12,6 +15,13 @@ send_data = []
 
 #Configure recieve socket and thread.
 def main():
+    """
+    Unthreaded will start a server and wait (blocking) until another robot connects to it and recieves data
+    from the remote robot.
+    Args:
+    Returns:
+        dist_data (float): distance data from the base station to the target.
+    """
     host = ''
     port = 12333
     dist_data = 0.0

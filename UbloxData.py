@@ -1,6 +1,5 @@
 
 """
-pyUBX used to bootstrap UBX communication to the Pi
 Messages will be recieved, parsed and sent to sss_triangle.
                                            UBX packet structure                                            #
  SyncChar1 | SyncChar2 |  Class   |   ID     |   Length   |             Payload              |  CHK_SUM |  #
@@ -9,11 +8,11 @@ Messages will be recieved, parsed and sent to sss_triangle.
 import serial
 import serial.tools
 import math
-"""
-_nav_data: checks ever packet coming over the USB interface. Once the NAV-UBX_RELPOSNED 
-(Ublox_M8 protocol sheet. 13003221) grab reletive position north and east.
-"""
 def _nav_data():
+    """
+    _nav_data: checks ever packet coming over the USB interface. Once the NAV-UBX_RELPOSNED 
+    (Ublox_M8 protocol sheet. 13003221) grab reletive position north and east.
+    """
     north_pos = 0.0
     east_pos = 0.0
     with serial.Serial('/dev/serial/by-id/usb-u-blox_AG_-_www.u-blox.com_u-blox_GNSS_receiver-if00', 9600, timeout=None, xonxoff=True) as ser: #Used for rPI
@@ -51,14 +50,13 @@ def _nav_data():
         return None
     else:
         return (north_pos, east_pos)
-"""
-RTK_dist()
-Uses _nav_data() to capture an RTK packet with reletive position data
-Returns:
-    float: Magnitude of the RTK North and South vectors.
-"""       
+
 def RTK_dist():
-#triangle math
+    """
+    Args:
+    Returns:
+        dist (float): RTK distance from the Ublox GPS board.
+    """
     ubx_data = _nav_data()
     if ubx_data:
         dist = math.sqrt(math.pow(ubx_data[0],2) + math.pow(ubx_data[1],2))

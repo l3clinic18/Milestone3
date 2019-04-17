@@ -1,5 +1,7 @@
-#Pixy (x,y) Data
-#Author Trevor Overby, CMUlabs @John Leimon
+"""
+Pixy (x,y) Signature Data
+Author Trevor Overby, CMUlabs @John Leimon
+"""
 import sys
 sys.path.insert(0, './pixy/build/libpixyusb_swig')
 from pixy import *
@@ -21,19 +23,15 @@ class Blocks (Structure):
 blocks_x_pos = []
 x_center = 160
 _sample_size = 1000
-#TO-DO: 
-#Get sample information.
-#Is it in the center of the field of view: Yes, No? 150 +- 20
-#Yes:
-#   return best/average 'x' value.
-#No:
-#   if mean x outside of 150 +- 20. Turn cam +-5 steps.
-#   run sample function again. Repeat.
-#   rerun a max of 3 or 5 times.
-#
-#Function to get the sample
-#Function to calc variance, mean & std deviation
+
 def sample_blocks():
+    """
+    Samples signature 1 or signature 2 and stores them in a global list 
+    Globals:
+        blocks_x_pos (List): stores the signatures' block x_position.
+        _sample_size  (int): the amount of samples to take.   
+    Returns:
+    """
     global blocks_x_pos
     global _sample_size
     blocks_x_pos = []
@@ -60,6 +58,11 @@ def sample_blocks():
         
 #find the mean, variance and std deviation of the sample
 def get_pixy_x():
+    """
+        Args:
+        Returns:
+            float: average of the 1000 signatures recorded from sample_blocks()
+    """
     global blocks_x_pos
     global _sample_size
     sample_blocks()
@@ -68,6 +71,12 @@ def get_pixy_x():
     return mean
 
 def center_camera():
+    """
+        Centers the camera within a range to set the center value used in module sss_triangle_calculation.py
+        Args:
+        Returns:
+            float: average of the target x-value.
+    """
     global blocks_x_pos
     global _sample_size
     if len(blocks_x_pos) < _sample_size:
@@ -84,7 +93,7 @@ def center_camera():
             motorControl.start_motor(1, direction='backward')
             time.sleep(2)
             sample_blocks()
-        elif mean < 25:
+        elif mean < 100:
             #counter-clockwise
             motorControl.start_motor(1, direction='forward')
             time.sleep(2)

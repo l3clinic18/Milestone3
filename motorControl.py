@@ -36,6 +36,15 @@ def start_motor(motor_steps, direction):
                 print("\nMotor_Control Error: start_motor")
                 exit()
 def reset_motor(steps, direction):
+        """
+        Resets the motor back to the base station by 
+        negating (param) direction and starting the motor. 
+
+        Args:
+        steps (int): the number of steps the motor has gone.
+        direction (string): the direction chosen for param steps.
+        Returns:
+        """
         try:
                 _direction = negate_direction(direction)
                 global Motor1 #= DRV8825(dir_pin=24, step_pin=18, enable_pin=4, mode_pins=(21, 22, 27))
@@ -46,14 +55,27 @@ def reset_motor(steps, direction):
                 print("\nMotor_Control Error: reset_motor")
                 exit()
 def negate_direction(direction):
+         """
+        Simple helper function to reverse the direction of the stepper motor
+        Args:
+                direction (string): direction of the motor. 'forward' (counter-clockwise) or 'backward' (clockwise)
+        Returns:
+                _direction (string): negation of direction ('forward' or 'backward')
+        
+        """
         if direction == 'forward':
                 _direction = 'backward'
         else:
                 _direction = 'forward'
         return _direction
 def stop_motor():
+        """
+                Cuts the power to the motor. effectivly turning it off.
+                Args:
+                Returns:
+        """
     try:
-        global Motor1 #= DRV8825(dir_pin=24, step_pin=18, enable_pin=4, mode_pins=(21, 22, 27))
+        global Motor1
         Motor1.Stop()
         #GPIO.cleanup()
         print("motor shutdown.")

@@ -143,7 +143,7 @@ if __name__ == '__main__':
     camera_center = PixyData.center_camera()
     #camera_center = 135
     print("before cam_error: " + str(base_dist-base_laser))
-    print("befor roboB: " + str(rover_dist-rover_laser))
+    print("before roboB: " + str(rover_dist-rover_laser))
     angles_from_deca = angle_calc(rtk, base_dist, rover_dist)
     angles_from_laser = angle_calc(rtk_laser, base_laser, rover_laser)
     base_dist = decawave_offset_correction(angles_from_deca[0], base_dist)

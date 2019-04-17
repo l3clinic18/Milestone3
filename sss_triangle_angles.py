@@ -75,34 +75,10 @@ if __name__ == '__main__':
     print("base distance" + str(base_dist))
     RoboComB.send_(12333, '192.168.1.10', base_dist)
     
-
-
-    angles_from_deca = angle_calc(rtk, base_dist, rover_laser)
-    angles_from_laser = angle_calc(rtk, base_laser, rover_laser)
-
-    steps_for_motor = angle_to_steps(angles_from_deca[0])
-
-    print("angles from deca: " + str(angles_from_deca))
-    print("angles from laser: " + str(angles_from_laser))
-    print("Motor steps: " + str(steps_for_motor))
-
-    #while True:
-       # try:
-           # base_dist_measure = pos_data.UWB_pos_data(base_dist_file)
-           # rover_dist_measure = pos_data.UWB_pos_data(rover_dist_file)
-            #base_dist_mean = stats(base_dist_measure[-10:])
-            #rover_dist_mean = stats(rover_dist_measure[-10:])
-            #angles_from_deca = angle_calc(base_dist_mean, rover_dist_mean, rtk)
-            #angles_from_laser = angle_calc(base_laser, rover_laser, rtk)
-
-            #print("angles from deca: " + str(angles_from_deca))
-            #print("angles from laser: " + str(angles_from_laser))
-            
-            #print("in the loop")
-        #except KeyboardInterrupt:
-            #break
-
-  #  print("successful")
-   
-
-
+    #angles_from_deca = angle_calc(rtk, base_dist, rover_laser)
+    #angles_from_laser = angle_calc(rtk, base_laser, rover_laser)
+    #steps_for_motor = angle_to_steps(angles_from_deca[0])
+    #print("angles from deca: " + str(angles_from_deca))
+    #print("angles from laser: " + str(angles_from_laser))
+    #print("Motor steps: " + str(steps_for_motor))
+    

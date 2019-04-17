@@ -19,5 +19,6 @@ def send_(port, ipv4_address, deca_data):
     except:
         print("could not connect to host. Exiting.")
         sys.exit(1)
-    robo_socket.sendall(deca_data)
+    print(str(deca_data).encode())
+    robo_socket.sendall(str(deca_data).encode())
     #robo_socket.sendall("end".encode())

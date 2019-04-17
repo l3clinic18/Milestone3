@@ -5,7 +5,7 @@ Branch(s):
 	RobotB -> Robot B,
 	RobotC -> Robot C (This branch will be added soon).
 
-		        /\
+		       /\
                   /  \
            base  /    \  rover
                 /      \
